@@ -12,25 +12,35 @@ import {
 } from '@mui/material';
 import { Spa, Eco, Diamond, LocalFlorist } from '@mui/icons-material';
 
+import HeroSection from '../components/HeroSection';
+
+// Import founder images
+import marioImg from '../assets/founders/mario.jpg';
+import corbynImg from '../assets/founders/corbyn.jpg';
+import tristianImg from '../assets/founders/tristian.jpg';
+
 const About = () => {
   const teamMembers = [
     {
-      name: "Sarah Chen",
-      role: "Master Perfumer",
-      bio: "With over 15 years of experience in luxury fragrance creation, Sarah brings artistry and precision to every scent.",
-      expertise: ["Floral Notes", "Oriental Blends", "Modern Classics"]
-    },
-    {
-      name: "Marcus Rodriguez",
+      name: "Mario Surprise Ojo",
       role: "Creative Director",
-      bio: "Marcus combines traditional perfumery with contemporary design to create unforgettable olfactory experiences.",
-      expertise: ["Concept Development", "Brand Strategy", "Visual Identity"]
+      bio: "With over 15 years of experience in luxury branding and a passion for natural aromas, Mario leads our scent development and creative vision.",
+      expertise: ["Floral Notes", "Oriental Blends", "Modern Classics"],
+      image: marioImg
     },
     {
-      name: "Dr. Elena Petrova",
-      role: "Head of Research",
-      bio: "Elena's background in chemistry and botany ensures the highest quality and sustainability in our ingredients.",
-      expertise: ["Sustainable Sourcing", "Quality Control", "Innovation"]
+      name: "Corbyn Robinson",
+      role: "Master Perfumer",
+      bio: "Corbyn's expertise in extracting and blending natural essences brings our wilderness-inspired fragrances to life.",
+      expertise: ["Sustainable Sourcing", "Quality Control", "Innovation"],
+      image: corbynImg
+    },
+    {
+      name: "Tristian Leech",
+      role: "Operations Director",
+      bio: "Tristian ensures our sustainable sourcing and maintains relationships with our exclusive clientele worldwide.",
+      expertise: ["Supply Chain", "Client Relations", "Sustainability"],
+      image: tristianImg
     }
   ];
 
@@ -60,23 +70,12 @@ const About = () => {
   return (
     <Box>
       {/* Hero Section */}
-      <Box
-        sx={{
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: 'white',
-          py: 12,
-          textAlign: 'center'
-        }}
-      >
-        <Container maxWidth="lg">
-          <Typography variant="h2" component="h1" gutterBottom sx={{ fontFamily: 'Playfair Display', fontWeight: 700 }}>
-            The Art of Fragrance
-          </Typography>
-          <Typography variant="h5" sx={{ maxWidth: 600, mx: 'auto', opacity: 0.9 }}>
-            Crafting luxury scents that tell stories and create memories
-          </Typography>
-        </Container>
-      </Box>
+      <HeroSection
+        title="The Art of Fragrance"
+        subtitle="Discover the passion, craftsmanship, and stories behind Vinoir"
+        backgroundImage="/images/heroes/about-story.jpg"
+        overlayOpacity={0.5}
+      />
 
       <Container maxWidth="lg" sx={{ py: 8 }}>
         {/* Our Story */}
@@ -99,7 +98,7 @@ const About = () => {
           <Grid item xs={12} md={6}>
             <Box
               component="img"
-              src="/images/about-story.jpg"
+              src="/images/heroes/brand-story.jpg"
               alt="Our Story"
               sx={{
                 width: '100%',
@@ -148,16 +147,14 @@ const About = () => {
                 <Card sx={{ textAlign: 'center', height: '100%' }}>
                   <CardContent sx={{ p: 4 }}>
                     <Avatar
+                      src={member.image}
                       sx={{
                         width: 120,
                         height: 120,
                         mx: 'auto',
-                        mb: 3,
-                        bgcolor: 'primary.main'
+                        mb: 3
                       }}
-                    >
-                      {member.name.split(' ').map(n => n[0]).join('')}
-                    </Avatar>
+                    />
                     <Typography variant="h5" gutterBottom>
                       {member.name}
                     </Typography>

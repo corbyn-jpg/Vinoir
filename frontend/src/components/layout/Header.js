@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -11,19 +11,19 @@ import {
   Drawer,
   List,
   ListItem,
-  ListItemText
-} from '@mui/material';
+  ListItemText,
+} from "@mui/material";
 import {
   ShoppingCart,
   Favorite,
   Person,
   Menu as MenuIcon,
-  Search as SearchIcon
-} from '@mui/icons-material';
-import { Link, useNavigate } from 'react-router-dom';
-import { useCart } from '../../contexts/CartContext';
-import { useWishlist } from '../../contexts/WishlistContext';
-import { useAuth } from '../../contexts/AuthContext';
+  Search as SearchIcon,
+} from "@mui/icons-material";
+import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "../../contexts/CartContext";
+import { useWishlist } from "../../contexts/WishlistContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -38,25 +38,30 @@ const Header = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   const menuItems = [
-    { label: 'Home', path: '/' },
-    { label: 'Shop', path: '/shop' },
-    { label: 'About', path: '/about' },
-    { label: 'Contact', path: '/contact' }
+    { label: "Home", path: "/" },
+    { label: "Shop", path: "/shop" },
+    { label: "About", path: "/about" },
+    { label: "Contact", path: "/contact" },
   ];
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
         VINOIR
       </Typography>
       <List>
         {menuItems.map((item) => (
-          <ListItem key={item.label} component={Link} to={item.path} disablePadding>
-            <ListItemText primary={item.label} sx={{ textAlign: 'center' }} />
+          <ListItem
+            key={item.label}
+            component={Link}
+            to={item.path}
+            disablePadding
+          >
+            <ListItemText primary={item.label} sx={{ textAlign: "center" }} />
           </ListItem>
         ))}
       </List>
@@ -65,59 +70,64 @@ const Header = () => {
 
   return (
     <>
-      <AppBar position="fixed" sx={{ backgroundColor: 'background.paper', color: 'text.primary' }}>
+      <AppBar
+        position="fixed"
+        sx={{ backgroundColor: "background.paper", color: "text.primary" }}
+      >
         <Container maxWidth="xl">
-          <Toolbar sx={{ justifyContent: 'space-between' }}>
+          <Toolbar sx={{ justifyContent: "space-between" }}>
             {/* Logo */}
             <Typography
               variant="h4"
               component={Link}
               to="/"
               sx={{
-                textDecoration: 'none',
-                color: 'inherit',
-                fontFamily: 'Playfair Display, serif',
-                fontWeight: 700
+                textDecoration: "none",
+                color: "inherit",
+                fontFamily: "Playfair Display",
+                fontWeight: 700,
               }}
             >
               VINOIR
             </Typography>
-
+            // Option 2: Use image logo (if you prefer)
+            <Box
+              component={Link}
+              to="/"
+              sx={{ display: "flex", alignItems: "center" }}
+            >
+              <img
+                src="/images/logos/logo.png"
+                alt="Vinoir"
+                style={{ height: 40, width: "auto" }}
+              />
+            </Box>
             {/* Desktop Menu */}
-            <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 3 }}>
+            <Box sx={{ display: { xs: "none", md: "flex" }, gap: 3 }}>
               {menuItems.map((item) => (
                 <Button
                   key={item.label}
                   component={Link}
                   to={item.path}
-                  sx={{ color: 'inherit' }}
+                  sx={{ color: "inherit" }}
                 >
                   {item.label}
                 </Button>
               ))}
             </Box>
-
             {/* Action Icons */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               <IconButton color="inherit">
                 <SearchIcon />
               </IconButton>
-              
-              <IconButton 
-                component={Link} 
-                to="/wishlist" 
-                color="inherit"
-              >
+
+              <IconButton component={Link} to="/wishlist" color="inherit">
                 <Badge badgeContent={wishlistCount} color="secondary">
                   <Favorite />
                 </Badge>
               </IconButton>
-              
-              <IconButton 
-                component={Link} 
-                to="/cart" 
-                color="inherit"
-              >
+
+              <IconButton component={Link} to="/cart" color="inherit">
                 <Badge badgeContent={cartCount} color="secondary">
                   <ShoppingCart />
                 </Badge>
@@ -125,11 +135,7 @@ const Header = () => {
 
               {isAuthenticated ? (
                 <>
-                  <IconButton 
-                    component={Link} 
-                    to="/account" 
-                    color="inherit"
-                  >
+                  <IconButton component={Link} to="/account" color="inherit">
                     <Person />
                   </IconButton>
                   <Button color="inherit" onClick={handleLogout}>
@@ -141,7 +147,12 @@ const Header = () => {
                   <Button component={Link} to="/login" color="inherit">
                     Login
                   </Button>
-                  <Button component={Link} to="/register" variant="outlined" color="primary">
+                  <Button
+                    component={Link}
+                    to="/register"
+                    variant="outlined"
+                    color="primary"
+                  >
                     Sign Up
                   </Button>
                 </>
@@ -153,7 +164,7 @@ const Header = () => {
                 aria-label="open drawer"
                 edge="start"
                 onClick={handleDrawerToggle}
-                sx={{ display: { md: 'none' } }}
+                sx={{ display: { md: "none" } }}
               >
                 <MenuIcon />
               </IconButton>
@@ -169,8 +180,8 @@ const Header = () => {
         onClose={handleDrawerToggle}
         ModalProps={{ keepMounted: true }}
         sx={{
-          display: { xs: 'block', md: 'none' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 },
+          display: { xs: "block", md: "none" },
+          "& .MuiDrawer-paper": { boxSizing: "border-box", width: 240 },
         }}
       >
         {drawer}

@@ -4,135 +4,135 @@ require('dotenv').config();
 
 const products = [
   {
-    name: 'Noir Essence',
-    description: 'A sophisticated blend of dark woods, amber, and subtle spices. This captivating fragrance evokes mystery and elegance with its deep, complex character.',
-    price: 245.00,
+    name: 'Noir Essentiel',
+    description: 'A profound exploration of darkness and light, where smoky oud meets velvety rose in a dance of contrasting elegance. This enigmatic fragrance reveals hidden depths with each passing hour, leaving an unforgettable trail of sophistication.',
+    price: 285.00,
     category: 'Eau de Parfum',
     fragranceNotes: {
-      topNotes: ['Bergamot', 'Black Pepper', 'Cardamom'],
-      middleNotes: ['Oud', 'Rose', 'Cedarwood'],
-      baseNotes: ['Amber', 'Leather', 'Vanilla']
+      topNotes: ['Black Pepper', 'Saffron', 'Bergamot'],
+      middleNotes: ['Oud Wood', 'Dark Rose', 'Leather'],
+      baseNotes: ['Amber', 'Patchouli', 'Vanilla']
     },
     size: '100ml',
-    stock: 25,
+    stock: 15,
     featured: true,
-    rating: 4.8,
-    reviewCount: 142,
+    rating: 4.9,
+    reviewCount: 127,
     salesCount: 89,
     images: [{
-      url: 'https://res.cloudinary.com/dx8wt3el4/image/upload/v1750285070/dior1_s2qxso.jpg',
-      altText: 'Noir Essence luxury fragrance bottle'
+      url: '/images/products/dior1.jpg',
+      altText: 'Noir Essentiel luxury black fragrance bottle'
     }]
   },
   {
-    name: "Lumière d'Or",
-    description: 'Radiant golden citrus notes dance with delicate white flowers in this luminous fragrance that captures the essence of sunlight and luxury.',
-    price: 180.00,
+    name: 'Lumière d\'Or',
+    description: 'Golden sunlight captured in a bottle, this radiant fragrance opens with sparkling citrus and settles into a warm embrace of amber and white flowers. A timeless classic for those who carry their own light.',
+    price: 220.00,
     category: 'Eau de Toilette',
     fragranceNotes: {
       topNotes: ['Bergamot', 'Mandarin', 'Neroli'],
       middleNotes: ['Jasmine', 'Orange Blossom', 'Ylang Ylang'],
-      baseNotes: ['Musk', 'Amberwood', 'White Cedar']
+      baseNotes: ['Amberwood', 'White Musk', 'Cedar']
     },
     size: '100ml',
-    stock: 32,
+    stock: 28,
     featured: true,
-    rating: 4.6,
-    reviewCount: 98,
+    rating: 4.7,
+    reviewCount: 94,
     salesCount: 67,
     images: [{
-      url: 'https://res.cloudinary.com/dx8wt3el4/image/upload/v1750284849/dior2_g5aq9q.jpg',
-      altText: 'Lumière d\'Or elegant perfume bottle'
+      url: '/images/products/dior2.jpg',
+      altText: 'Lumière d\'Or golden luxury fragrance bottle'
     }]
   },
   {
     name: 'Velvet Rose',
-    description: 'Luxurious rose petals blended with creamy vanilla and soft musk create a romantic, timeless fragrance that feels like wearing velvet.',
-    price: 220.00,
+    description: 'Like crushed velvet petals against skin, this opulent rose fragrance is both delicate and profound. Bulgarian rose absolute dances with peony and violet, creating a floral masterpiece of unparalleled luxury.',
+    price: 245.00,
     category: 'Eau de Parfum',
     fragranceNotes: {
       topNotes: ['Turkish Rose', 'Peony', 'Pink Pepper'],
       middleNotes: ['Damask Rose', 'Violet', 'Orris'],
-      baseNotes: ['Vanilla', 'Sandalwood', 'White Musk']
-    },
-    size: '100ml',
-    stock: 18,
-    featured: false,
-    rating: 4.7,
-    reviewCount: 76,
-    salesCount: 45,
-    images: [{
-      url: 'https://res.cloudinary.com/dx8wt3el4/image/upload/v1750441644/dior4_sejvq4.jpg',
-      altText: 'Velvet Rose floral perfume bottle'
-    }]
-  },
-  {
-    name: 'Oud Royal',
-    description: 'Regal and intense, this fragrance combines precious oud with rich spices and smoky woods for a truly majestic olfactory experience.',
-    price: 320.00,
-    category: 'Eau de Parfum',
-    fragranceNotes: {
-      topNotes: ['Saffron', 'Cinnamon', 'Bergamot'],
-      middleNotes: ['Oud', 'Rose', 'Patchouli'],
-      baseNotes: ['Agarwood', 'Leather', 'Amber']
-    },
-    size: '100ml',
-    stock: 12,
-    featured: true,
-    rating: 4.9,
-    reviewCount: 54,
-    salesCount: 28,
-    images: [{
-      url: 'https://res.cloudinary.com/dx8wt3el4/image/upload/v1750338278/dior6_trw6e5.jpg',
-      altText: 'Oud Royal luxury fragrance bottle'
-    }]
-  },
-  {
-    name: 'Amber Mystique',
-    description: 'Warm amber notes wrapped in oriental spices and creamy vanilla create a mysterious and sensual fragrance that lingers beautifully.',
-    price: 195.00,
-    category: 'Eau de Parfum',
-    fragranceNotes: {
-      topNotes: ['Amber', 'Incense', 'Cardamom'],
-      middleNotes: ['Vanilla', 'Tonka Bean', 'Heliotrope'],
-      baseNotes: ['Benzoin', 'Labdanum', 'Musk']
+      baseNotes: ['Sandalwood', 'Vanilla', 'White Musk']
     },
     size: '100ml',
     stock: 22,
     featured: false,
-    rating: 4.5,
-    reviewCount: 63,
-    salesCount: 38,
+    rating: 4.8,
+    reviewCount: 156,
+    salesCount: 112,
     images: [{
-      url: 'https://res.cloudinary.com/dx8wt3el4/image/upload/v1750442464/dior13_zxe3sn.jpg',
-      altText: 'Amber Mystique warm fragrance bottle'
+      url: '/images/products/dior3.jpg',
+      altText: 'Velvet Rose floral luxury perfume bottle'
     }]
   },
   {
-    name: 'Citrus Bloom',
-    description: 'A vibrant burst of citrus fruits meets delicate spring flowers in this fresh, uplifting fragrance perfect for everyday wear.',
-    price: 165.00,
-    category: 'Eau de Toilette',
+    name: 'Oud Royal',
+    description: 'Regal and commanding, this fragrance features precious oud wood from Thailand, aged to perfection. Wrapped in spices and smoky leather, it creates an aura of power and sophistication fit for royalty.',
+    price: 395.00,
+    category: 'Eau de Parfum',
     fragranceNotes: {
-      topNotes: ['Grapefruit', 'Lemon', 'Bergamot'],
-      middleNotes: ['Magnolia', 'Lily of the Valley', 'Jasmine'],
-      baseNotes: ['Cedar', 'Musk', 'Amber']
+      topNotes: ['Saffron', 'Cinnamon', 'Cardamom'],
+      middleNotes: ['Agarwood', 'Rose', 'Patchouli'],
+      baseNotes: ['Leather', 'Amber', 'Oakmoss']
     },
     size: '100ml',
-    stock: 28,
-    featured: false,
-    rating: 4.4,
-    reviewCount: 87,
-    salesCount: 52,
+    stock: 8,
+    featured: true,
+    rating: 4.9,
+    reviewCount: 83,
+    salesCount: 45,
     images: [{
-      url: 'https://res.cloudinary.com/dx8wt3el4/image/upload/v1750442354/dior12_moclfw.jpg',
-      altText: 'Citrus Bloom fresh fragrance bottle'
+      url: '/images/products/dior4.jpg',
+      altText: 'Oud Royal premium oud fragrance bottle'
     }]
   },
   {
-    name: 'Sandalwood Whisper',
-    description: 'Creamy sandalwood harmonizes with soft iris and warm musk in this subtle, sophisticated fragrance that whispers rather than shouts.',
+    name: 'Amber Mystique',
+    description: 'Warm, sensual amber unfolds like a secret whispered in the dark. This mysterious blend combines resinous notes with vanilla and tonka bean, creating a fragrance that feels both familiar and enigmatic.',
     price: 235.00,
+    category: 'Eau de Parfum',
+    fragranceNotes: {
+      topNotes: ['Amber', 'Incense', 'Bergamot'],
+      middleNotes: ['Vanilla', 'Tonka Bean', 'Heliotrope'],
+      baseNotes: ['Benzoin', 'Labdanum', 'Musk']
+    },
+    size: '100ml',
+    stock: 18,
+    featured: false,
+    rating: 4.6,
+    reviewCount: 91,
+    salesCount: 63,
+    images: [{
+      url: '/images/products/dior5.jpg',
+      altText: 'Amber Mystique warm amber fragrance bottle'
+    }]
+  },
+  {
+    name: 'Citrus Éclat',
+    description: 'A burst of Mediterranean sunshine in every drop. Zesty citrus fruits dance with green herbs and white flowers, creating an uplifting fragrance that energizes the spirit and brightens the day.',
+    price: 195.00,
+    category: 'Eau de Toilette',
+    fragranceNotes: {
+      topNotes: ['Blood Orange', 'Lemon', 'Bergamot'],
+      middleNotes: ['Neroli', 'Petitgrain', 'Mint'],
+      baseNotes: ['Cedar', 'Amber', 'Musk']
+    },
+    size: '100ml',
+    stock: 35,
+    featured: false,
+    rating: 4.5,
+    reviewCount: 124,
+    salesCount: 88,
+    images: [{
+      url: '/images/products/dior6.jpg',
+      altText: 'Citrus Éclat fresh citrus fragrance bottle'
+    }]
+  },
+  {
+    name: 'Santal Blanc',
+    description: 'Creamy sandalwood from Mysore meets ethereal white flowers in this serene, meditative fragrance. A minimalist masterpiece that speaks volumes in whispers rather than shouts.',
+    price: 275.00,
     category: 'Eau de Parfum',
     fragranceNotes: {
       topNotes: ['Sandalwood', 'Bergamot', 'Neroli'],
@@ -140,42 +140,130 @@ const products = [
       baseNotes: ['Musk', 'Tonka Bean', 'Amber']
     },
     size: '100ml',
-    stock: 15,
-    featured: false,
-    rating: 4.6,
-    reviewCount: 45,
-    salesCount: 31,
+    stock: 12,
+    featured: true,
+    rating: 4.7,
+    reviewCount: 67,
+    salesCount: 41,
     images: [{
-      url: 'https://res.cloudinary.com/dx8wt3el4/image/upload/v1750338252/dior8_vgcqgi.jpg',
-      altText: 'Sandalwood Whisper woody fragrance bottle'
+      url: '/images/products/dior7.jpg',
+      altText: 'Santal Blanc sandalwood luxury fragrance bottle'
     }]
   },
   {
-    name: 'Patchouli Dream',
-    description: 'Earthy patchouli is elevated with rose and vanilla in this dreamy, bohemian-inspired fragrance that transports you to another realm.',
-    price: 210.00,
+    name: 'Patchouli Nocturne',
+    description: 'Earthy patchouli undergoes a nocturnal transformation, revealing its sensual, mysterious side. Dark chocolate and rose elevate this bohemian spirit to new heights of sophistication.',
+    price: 255.00,
     category: 'Eau de Parfum',
     fragranceNotes: {
       topNotes: ['Patchouli', 'Bergamot', 'Black Currant'],
-      middleNotes: ['Rose', 'Geranium', 'Cacao'],
+      middleNotes: ['Rose', 'Cacao', 'Geranium'],
+      baseNotes: ['Vanilla', 'Amber', 'Leather']
+    },
+    size: '100ml',
+    stock: 16,
+    featured: false,
+    rating: 4.8,
+    reviewCount: 78,
+    salesCount: 52,
+    images: [{
+      url: '/images/products/dior8.jpg',
+      altText: 'Patchouli Nocturne earthy fragrance bottle'
+    }]
+  },
+  {
+    name: 'Jardin Secret',
+    description: 'A hidden garden where dewy greens meet blooming white flowers. This fresh, airy fragrance captures the moment morning light touches petals, creating an atmosphere of pure tranquility.',
+    price: 210.00,
+    category: 'Eau de Toilette',
+    fragranceNotes: {
+      topNotes: ['Green Leaves', 'Bergamot', 'Galbanum'],
+      middleNotes: ['Lily of the Valley', 'Jasmine', 'Magnolia'],
+      baseNotes: ['Moss', 'Cedar', 'White Musk']
+    },
+    size: '100ml',
+    stock: 25,
+    featured: false,
+    rating: 4.4,
+    reviewCount: 105,
+    salesCount: 74,
+    images: [{
+      url: '/images/products/dior9.jpg',
+      altText: 'Jardin Secret fresh garden fragrance bottle'
+    }]
+  },
+  {
+    name: 'Cuir de Nuit',
+    description: 'The scent of fine leather gloves and midnight encounters. Smoky birch and smooth suede create a sophisticated leather fragrance that is both rugged and refined, mysterious and inviting.',
+    price: 315.00,
+    category: 'Eau de Parfum',
+    fragranceNotes: {
+      topNotes: ['Birch', 'Saffron', 'Black Pepper'],
+      middleNotes: ['Leather', 'Suede', 'Iris'],
       baseNotes: ['Vanilla', 'Amber', 'Musk']
+    },
+    size: '100ml',
+    stock: 10,
+    featured: true,
+    rating: 4.9,
+    reviewCount: 59,
+    salesCount: 36,
+    images: [{
+      url: '/images/products/dior10.jpg',
+      altText: 'Cuir de Nuit leather luxury fragrance bottle'
+    }]
+  },
+  {
+    name: 'Nectar de Vanille',
+    description: 'A gourmand fantasy where Madagascan vanilla meets caramelized sugar and creamy tonka. This decadent fragrance is like your favorite dessert, elevated to an art form of olfactory delight.',
+    price: 225.00,
+    category: 'Eau de Parfum',
+    fragranceNotes: {
+      topNotes: ['Vanilla', 'Caramel', 'Bergamot'],
+      middleNotes: ['Tonka Bean', 'Heliotrope', 'Coconut'],
+      baseNotes: ['Sandalwood', 'Musk', 'Amber']
+    },
+    size: '100ml',
+    stock: 30,
+    featured: false,
+    rating: 4.6,
+    reviewCount: 142,
+    salesCount: 98,
+    images: [{
+      url: '/images/products/dior1.jpg', // Reusing dior1 for variety
+      altText: 'Nectar de Vanille gourmand vanilla fragrance bottle'
+    }]
+  },
+  {
+    name: 'Fleur de Lys',
+    description: 'The majestic lily reimagined for modern royalty. This floral masterpiece combines lily with green notes and clean musk, creating a fragrance that is both regal and effortlessly chic.',
+    price: 240.00,
+    category: 'Eau de Parfum',
+    fragranceNotes: {
+      topNotes: ['Lily', 'Green Notes', 'Bergamot'],
+      middleNotes: ['Jasmine', 'Tuberose', 'Ylang Ylang'],
+      baseNotes: ['Musk', 'Cedar', 'Amber']
     },
     size: '100ml',
     stock: 20,
     featured: false,
     rating: 4.7,
-    reviewCount: 58,
-    salesCount: 42,
+    reviewCount: 88,
+    salesCount: 61,
     images: [{
-      url: 'https://res.cloudinary.com/dx8wt3el4/image/upload/v1750441791/dior0_hs7dgd.jpg',
-      altText: 'Patchouli Dream earthy fragrance bottle'
+      url: '/images/products/dior2.jpg', // Reusing dior2 for variety
+      altText: 'Fleur de Lys elegant floral fragrance bottle'
     }]
   }
 ];
 
 const seedProducts = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
     console.log('Connected to MongoDB');
 
     // Clear existing products
@@ -186,16 +274,42 @@ const seedProducts = async () => {
     await Product.insertMany(products);
     console.log('Successfully seeded products');
 
-    // Log product counts
+    // Log product statistics
     const productCount = await Product.countDocuments();
     const featuredCount = await Product.countDocuments({ featured: true });
+    const totalStock = await Product.aggregate([
+      { $group: { _id: null, total: { $sum: '$stock' } } }
+    ]);
     
+    console.log('\n📊 Product Database Summary:');
     console.log(`Total products: ${productCount}`);
     console.log(`Featured products: ${featuredCount}`);
+    console.log(`Total inventory: ${totalStock[0]?.total || 0} units`);
+    
+    // Log price range
+    const priceStats = await Product.aggregate([
+      {
+        $group: {
+          _id: null,
+          avgPrice: { $avg: '$price' },
+          minPrice: { $min: '$price' },
+          maxPrice: { $max: '$price' }
+        }
+      }
+    ]);
+    
+    console.log(`Price range: $${priceStats[0]?.minPrice?.toFixed(2)} - $${priceStats[0]?.maxPrice?.toFixed(2)}`);
+    console.log(`Average price: $${priceStats[0]?.avgPrice?.toFixed(2)}`);
+
+    // Log categories
+    const categories = await Product.distinct('category');
+    console.log(`Categories: ${categories.join(', ')}`);
+
+    console.log('\n🎉 Database seeding completed successfully!');
 
     process.exit(0);
   } catch (error) {
-    console.error('Error seeding products:', error);
+    console.error('❌ Error seeding products:', error);
     process.exit(1);
   }
 };

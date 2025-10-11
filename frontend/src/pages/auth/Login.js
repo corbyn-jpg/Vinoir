@@ -12,6 +12,8 @@ import {
 } from '@mui/material';
 import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 import { Email, Lock } from '@mui/icons-material';
+
+import HeroSection from '../../components/HeroSection';
 import { useAuth } from '../../contexts/AuthContext';
 import EmojiSelector from '../../components/ui/EmojiSelector';
 
@@ -89,107 +91,130 @@ const Login = () => {
     setIsLoading(false);
   };
 
-  const handleDemoLogin = () => {
+  const handleDemoLogin = async () => {
     setFormData({
       email: 'demo@vinoir.com',
       password: ''
     });
     setEmojiPassword(['🌹', '🌟', '🍋', '💎', '🦋']);
+    
+    // Auto-submit demo credentials after a short delay
+    setTimeout(async () => {
+      setIsLoading(true);
+      const password = ['🌹', '🌟', '🍋', '💎', '🦋'].join('');
+      const result = await login('demo@vinoir.com', password);
+      
+      if (!result.success) {
+        setErrors({ submit: result.error });
+      }
+      
+      setIsLoading(false);
+    }, 500);
   };
 
   return (
-    <Container maxWidth="sm" sx={{ py: 8 }}>
-      <Paper elevation={3} sx={{ p: 4 }}>
-        <Box sx={{ textAlign: 'center', mb: 4 }}>
-          <Typography variant="h3" component="h1" gutterBottom sx={{ fontFamily: 'Playfair Display' }}>
-            Welcome Back
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            Sign in to your Vinoir account
-          </Typography>
-        </Box>
-
-        {error && (
-          <Alert severity="error" sx={{ mb: 3 }}>
-            {error}
-          </Alert>
-        )}
-
-        {errors.submit && (
-          <Alert severity="error" sx={{ mb: 3 }}>
-            {errors.submit}
-          </Alert>
-        )}
-
-        <form onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            label="Email Address"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            error={!!errors.email}
-            helperText={errors.email}
-            margin="normal"
-            InputProps={{
-              startAdornment: <Email sx={{ mr: 1, color: 'text.secondary' }} />
-            }}
-          />
-
-          <Box sx={{ mt: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              Emoji Password
+    <>
+      <HeroSection 
+        title="Welcome Back to Vinoir"
+        subtitle="Rediscover your wine journey with personalized recommendations and tasting notes"
+        backgroundImage="/api/placeholder/1200/400"
+        height="300px"
+      />
+      
+      <Container maxWidth="sm" sx={{ py: 8 }}>
+        <Paper elevation={3} sx={{ p: 4 }}>
+          <Box sx={{ textAlign: 'center', mb: 4 }}>
+            <Typography variant="h3" component="h1" gutterBottom sx={{ fontFamily: 'Playfair Display' }}>
+              Welcome Back
             </Typography>
-            <EmojiSelector
-              selectedEmojis={emojiPassword}
-              setSelectedEmojis={setEmojiPassword}
-              maxLength={5}
-            />
-            {errors.emojiPassword && (
-              <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
-                {errors.emojiPassword}
-              </Typography>
-            )}
+            <Typography variant="body1" color="text.secondary">
+              Sign in to your Vinoir account
+            </Typography>
           </Box>
 
+          {error && (
+            <Alert severity="error" sx={{ mb: 3 }}>
+              {error}
+            </Alert>
+          )}
+
+          {errors.submit && (
+            <Alert severity="error" sx={{ mb: 3 }}>
+              {errors.submit}
+            </Alert>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              label="Email Address"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              error={!!errors.email}
+              helperText={errors.email}
+              margin="normal"
+              InputProps={{
+                startAdornment: <Email sx={{ mr: 1, color: 'text.secondary' }} />
+              }}
+            />
+
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="h6" gutterBottom>
+                Emoji Password
+              </Typography>
+              <EmojiSelector
+                selectedEmojis={emojiPassword}
+                setSelectedEmojis={setEmojiPassword}
+                maxLength={5}
+              />
+              {errors.emojiPassword && (
+                <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
+                  {errors.emojiPassword}
+                </Typography>
+              )}
+            </Box>
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              size="large"
+              disabled={isLoading}
+              sx={{ mt: 4, py: 1.5 }}
+            >
+              {isLoading ? 'Signing In...' : 'Sign In'}
+            </Button>
+          </form>
+
+          <Divider sx={{ my: 3 }}>
+            <Typography variant="body2" color="text.secondary">
+              OR
+            </Typography>
+          </Divider>
+
           <Button
-            type="submit"
             fullWidth
-            variant="contained"
-            size="large"
+            variant="outlined"
+            onClick={handleDemoLogin}
             disabled={isLoading}
-            sx={{ mt: 4, py: 1.5 }}
+            sx={{ mb: 3 }}
           >
-            {isLoading ? 'Signing In...' : 'Sign In'}
+            Use Demo Account
           </Button>
-        </form>
 
-        <Divider sx={{ my: 3 }}>
-          <Typography variant="body2" color="text.secondary">
-            OR
-          </Typography>
-        </Divider>
-
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={handleDemoLogin}
-          sx={{ mb: 3 }}
-        >
-          Use Demo Account
-        </Button>
-
-        <Box sx={{ textAlign: 'center', mt: 3 }}>
-          <Typography variant="body2" color="text.secondary">
-            Don't have an account?{' '}
-            <Link component={RouterLink} to="/register" underline="hover">
-              Sign up here
-            </Link>
-          </Typography>
-        </Box>
-      </Paper>
-    </Container>
+          <Box sx={{ textAlign: 'center', mt: 3 }}>
+            <Typography variant="body2" color="text.secondary">
+              Don't have an account?{' '}
+              <Link component={RouterLink} to="/register" underline="hover">
+                Sign up here
+              </Link>
+            </Typography>
+          </Box>
+        </Paper>
+      </Container>
+    </>
   );
 };
 

@@ -20,6 +20,7 @@ import {
 import { Search, FilterList, Clear, ViewModule, ViewList } from '@mui/icons-material';
 import { useSearchParams } from 'react-router-dom';
 
+import HeroSection from '../components/HeroSection';
 import ProductCard from '../components/ui/ProductCard';
 import { productAPI } from '../services/api';
 
@@ -158,160 +159,160 @@ const Shop = () => {
   );
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
-      {/* Header */}
-      <Box sx={{ mb: 4, textAlign: 'center' }}>
-        <Typography variant="h2" component="h1" gutterBottom>
-          Luxury Fragrances
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Discover our exquisite collection of premium scents
-        </Typography>
-      </Box>
+    <Box>
+      {/* Hero Section */}
+      <HeroSection
+        title="Luxury Fragrances"
+        subtitle="Discover our exquisite collection of premium scents for every occasion"
+        backgroundImage="/images/heroes/hero-1.jpg"
+        overlayOpacity={0.5}
+      />
 
-      {/* Search and Filter Bar */}
-      <Card sx={{ mb: 3, p: 2 }}>
-        <CardContent>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} md={4}>
-              <TextField
-                fullWidth
-                placeholder="Search fragrances by name, notes, or description..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                InputProps={{
-                  startAdornment: <Search sx={{ mr: 1, color: 'text.secondary' }} />
-                }}
-              />
-            </Grid>
-            
-            <Grid item xs={12} md={3}>
-              <FormControl fullWidth>
-                <InputLabel>Category</InputLabel>
-                <Select
-                  multiple
-                  value={selectedCategories}
-                  onChange={(e) => setSelectedCategories(e.target.value)}
-                  renderValue={(selected) => (
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                      {selected.map((value) => (
-                        <Chip key={value} label={value} size="small" />
-                      ))}
-                    </Box>
+      <Container maxWidth="xl" sx={{ py: 4 }}>
+        {/* Search and Filter Bar */}
+        <Card sx={{ mb: 3, p: 2 }}>
+          <CardContent>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12} md={4}>
+                <TextField
+                  fullWidth
+                  placeholder="Search fragrances by name, notes, or description..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  InputProps={{
+                    startAdornment: <Search sx={{ mr: 1, color: 'text.secondary' }} />
+                  }}
+                />
+              </Grid>
+              
+              <Grid item xs={12} md={3}>
+                <FormControl fullWidth>
+                  <InputLabel>Category</InputLabel>
+                  <Select
+                    multiple
+                    value={selectedCategories}
+                    onChange={(e) => setSelectedCategories(e.target.value)}
+                    renderValue={(selected) => (
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                        {selected.map((value) => (
+                          <Chip key={value} label={value} size="small" />
+                        ))}
+                      </Box>
+                    )}
+                  >
+                    {categories.map((category) => (
+                      <MenuItem key={category} value={category}>
+                        {category}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} md={2}>
+                <FormControl fullWidth>
+                  <InputLabel>Sort By</InputLabel>
+                  <Select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    label="Sort By"
+                  >
+                    <MenuItem value="name">Name A-Z</MenuItem>
+                    <MenuItem value="price-low">Price: Low to High</MenuItem>
+                    <MenuItem value="price-high">Price: High to Low</MenuItem>
+                    <MenuItem value="newest">Newest First</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} md={3}>
+                <Stack direction="row" spacing={1} justifyContent="flex-end">
+                  <Button
+                    variant={viewMode === 'grid' ? 'contained' : 'outlined'}
+                    onClick={() => setViewMode('grid')}
+                    startIcon={<ViewModule />}
+                  >
+                    Grid
+                  </Button>
+                  <Button
+                    variant={viewMode === 'list' ? 'contained' : 'outlined'}
+                    onClick={() => setViewMode('list')}
+                    startIcon={<ViewList />}
+                  >
+                    List
+                  </Button>
+                  {activeFilterCount > 0 && (
+                    <Chip
+                      label={`${activeFilterCount} active`}
+                      color="primary"
+                      variant="outlined"
+                    />
                   )}
-                >
-                  {categories.map((category) => (
-                    <MenuItem key={category} value={category}>
-                      {category}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12} md={2}>
-              <FormControl fullWidth>
-                <InputLabel>Sort By</InputLabel>
-                <Select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  label="Sort By"
-                >
-                  <MenuItem value="name">Name A-Z</MenuItem>
-                  <MenuItem value="price-low">Price: Low to High</MenuItem>
-                  <MenuItem value="price-high">Price: High to Low</MenuItem>
-                  <MenuItem value="newest">Newest First</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12} md={3}>
-              <Stack direction="row" spacing={1} justifyContent="flex-end">
-                <Button
-                  variant={viewMode === 'grid' ? 'contained' : 'outlined'}
-                  onClick={() => setViewMode('grid')}
-                  startIcon={<ViewModule />}
-                >
-                  Grid
-                </Button>
-                <Button
-                  variant={viewMode === 'list' ? 'contained' : 'outlined'}
-                  onClick={() => setViewMode('list')}
-                  startIcon={<ViewList />}
-                >
-                  List
-                </Button>
-                {activeFilterCount > 0 && (
                   <Chip
-                    label={`${activeFilterCount} active`}
-                    color="primary"
+                    label="Clear"
+                    onClick={handleClearFilters}
+                    onDelete={handleClearFilters}
+                    deleteIcon={<Clear />}
                     variant="outlined"
                   />
-                )}
-                <Chip
-                  label="Clear"
-                  onClick={handleClearFilters}
-                  onDelete={handleClearFilters}
-                  deleteIcon={<Clear />}
-                  variant="outlined"
-                />
-              </Stack>
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
-
-      {/* Results Summary */}
-      <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="body1" color="text.secondary">
-          Showing {paginatedProducts.length} of {filteredProducts.length} products
-        </Typography>
-        <FilterList color="action" />
-      </Box>
-
-      {/* Products Grid */}
-      {loading ? (
-        renderSkeletons()
-      ) : (
-        <>
-          <Grid container spacing={3}>
-            {paginatedProducts.map((product) => (
-              <Grid item xs={12} sm={viewMode === 'list' ? 12 : 6} md={viewMode === 'list' ? 12 : 4} lg={viewMode === 'list' ? 12 : 3} key={product._id}>
-                <ProductCard product={product} viewMode={viewMode} />
+                </Stack>
               </Grid>
-            ))}
-          </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
 
-          {/* No Results */}
-          {paginatedProducts.length === 0 && (
-            <Box sx={{ textAlign: 'center', py: 8 }}>
-              <Typography variant="h6" gutterBottom>
-                No products found
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                Try adjusting your search or filters
-              </Typography>
-              <Button variant="contained" onClick={handleClearFilters}>
-                Clear All Filters
-              </Button>
-            </Box>
-          )}
+        {/* Results Summary */}
+        <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography variant="body1" color="text.secondary">
+            Showing {paginatedProducts.length} of {filteredProducts.length} products
+          </Typography>
+          <FilterList color="action" />
+        </Box>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-              <Pagination
-                count={totalPages}
-                page={currentPage}
-                onChange={(_, page) => setCurrentPage(page)}
-                color="primary"
-                size="large"
-              />
-            </Box>
-          )}
-        </>
-      )}
-    </Container>
+        {/* Products Grid */}
+        {loading ? (
+          renderSkeletons()
+        ) : (
+          <>
+            <Grid container spacing={3}>
+              {paginatedProducts.map((product) => (
+                <Grid item xs={12} sm={viewMode === 'list' ? 12 : 6} md={viewMode === 'list' ? 12 : 4} lg={viewMode === 'list' ? 12 : 3} key={product._id}>
+                  <ProductCard product={product} viewMode={viewMode} />
+                </Grid>
+              ))}
+            </Grid>
+
+            {/* No Results */}
+            {paginatedProducts.length === 0 && (
+              <Box sx={{ textAlign: 'center', py: 8 }}>
+                <Typography variant="h6" gutterBottom>
+                  No products found
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                  Try adjusting your search or filters
+                </Typography>
+                <Button variant="contained" onClick={handleClearFilters}>
+                  Clear All Filters
+                </Button>
+              </Box>
+            )}
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={(_, page) => setCurrentPage(page)}
+                  color="primary"
+                  size="large"
+                />
+              </Box>
+            )}
+          </>
+        )}
+      </Container>
+    </Box>
   );
 };
 
