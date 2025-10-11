@@ -12,16 +12,6 @@ require('dotenv').config();
 // Import database connection
 const connectDB = require('./config/database');
 
-// Import routes
-const authRoutes = require('./routes/auth');
-const productRoutes = require('./routes/products');
-const orderRoutes = require('./routes/orders');
-const wishlistRoutes = require('./routes/wishlist');
-
-// Import middleware
-const globalErrorHandler = require('./middleware/error');
-const { sanitizeInput } = require('./middleware/validation');
-
 const app = express();
 
 // Connect to database
@@ -35,7 +25,7 @@ app.use(helmet({
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: process.env.NODE_ENV === 'production' ? 100 : 1000, // limit each IP
+  max: process.env.NODE_ENV === 'production' ? 100 : 1000,
   message: {
     success: false,
     message: 'Too many requests from this IP, please try again later.'
@@ -47,13 +37,9 @@ app.use('/api/', limiter);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Data sanitization against NoSQL query injection
+// Data sanitization
 app.use(mongoSanitize());
-
-// Data sanitization against XSS
 app.use(xss());
-
-// Prevent parameter pollution
 app.use(hpp({
   whitelist: [
     'price',
@@ -64,9 +50,6 @@ app.use(hpp({
     'page'
   ]
 }));
-
-// Input sanitization
-app.use(sanitizeInput);
 
 // CORS
 app.use(cors({
@@ -96,11 +79,24 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// API routes
-app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/wishlist', wishlistRoutes);
+// Simple products route for testing
+app.get('/api/products', async (req, res) => {
+  try {
+    const Product = require('./models/Product');
+    const products = await Product.find().limit(10);
+    res.json({
+      success: true,
+      count: products.length,
+      data: products
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching products',
+      error: error.message
+    });
+  }
+});
 
 // 404 handler for API routes
 app.use('/api/*', (req, res) => {
@@ -110,30 +106,14 @@ app.use('/api/*', (req, res) => {
   });
 });
 
-// Serve static files in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
-  
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
-}
-
 // Global error handler
-app.use(globalErrorHandler);
-
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (err) => {
-  console.log('UNHANDLED REJECTION! 💥 Shutting down...');
-  console.log(err.name, err.message);
-  process.exit(1);
-});
-
-// Handle uncaught exceptions
-process.on('uncaughtException', (err) => {
-  console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
-  console.log(err.name, err.message);
-  process.exit(1);
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).json({
+    success: false,
+    message: 'Something went wrong!',
+    ...(process.env.NODE_ENV === 'development' && { error: err.message })
+  });
 });
 
 const PORT = process.env.PORT || 5000;
