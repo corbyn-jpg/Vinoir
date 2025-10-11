@@ -18,6 +18,8 @@ import {
   Person as PersonIcon
 } from '@mui/icons-material';
 import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
+
+// Import the hooks - adjust the path based on your project structure
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/CartContext';
 import { useWishlist } from '../../contexts/WishlistContext';
@@ -30,9 +32,10 @@ const Navbar = ({ onSearchOpen, onCartOpen, onWishlistOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  const { isAuthenticated, user, logout } = useAuth();
-  const { cartItems } = useCart();
-  const { wishlistItems } = useWishlist();
+  // Safe context usage with fallbacks
+  const { isAuthenticated = false, user = null, logout = () => {} } = useAuth?.() || {};
+  const { cartItems = [] } = useCart?.() || {};
+  const { wishlistItems = [] } = useWishlist?.() || {};
 
   const navItems = [
     { label: 'Home', path: '/' },
@@ -63,8 +66,9 @@ const Navbar = ({ onSearchOpen, onCartOpen, onWishlistOpen }) => {
     navigate('/');
   };
 
-  const cartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-  const wishlistItemsCount = wishlistItems.length;
+  // Safe calculation with fallbacks
+  const cartItemsCount = cartItems.reduce?.((total, item) => total + (item.quantity || 0), 0) || 0;
+  const wishlistItemsCount = wishlistItems.length || 0;
 
   return (
     <>

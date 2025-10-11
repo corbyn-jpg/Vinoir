@@ -16,19 +16,25 @@ import {
   Delete as DeleteIcon,
   AddShoppingCart as AddToCartIcon
 } from '@mui/icons-material';
-import { useWishlist } from '../../../contexts/WishlistContext';
-import { useCart } from '../../../contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
 
+// Import the hooks - adjust the path based on your project structure
+import { useWishlist } from '../../../contexts/WishlistContext';
+import { useCart } from '../../../contexts/CartContext';
+
 const WishlistDrawer = ({ open, onClose }) => {
-  const { wishlistItems, removeFromWishlist, clearWishlist } = useWishlist();
-  const { addToCart } = useCart();
+  // Safe context usage with fallbacks
+  const { 
+    wishlistItems = [], 
+    removeFromWishlist = () => {}, 
+    clearWishlist = () => {} 
+  } = useWishlist?.() || {};
+  
+  const { addToCart = () => {} } = useCart?.() || {};
   const navigate = useNavigate();
 
   const handleAddToCart = (product) => {
     addToCart(product);
-    // Optionally remove from wishlist when added to cart
-    // removeFromWishlist(product.id);
   };
 
   const handleViewWishlist = () => {
@@ -80,7 +86,7 @@ const WishlistDrawer = ({ open, onClose }) => {
               <ListItem key={item.id} divider>
                 <Box sx={{ mr: 2 }}>
                   <img
-                    src={item.image}
+                    src={item.image || '/api/placeholder/60/60'}
                     alt={item.name}
                     style={{
                       width: 60,

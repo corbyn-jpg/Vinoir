@@ -18,11 +18,21 @@ import {
   Add as AddIcon,
   Remove as RemoveIcon
 } from '@mui/icons-material';
-import { useCart } from '../../../contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
 
+// Import the hooks - adjust the path based on your project structure
+import { useCart } from '../../../contexts/CartContext';
+
 const CartDrawer = ({ open, onClose }) => {
-  const { cartItems, updateQuantity, removeFromCart, getCartTotal, getCartCount } = useCart();
+  // Safe context usage with fallbacks
+  const { 
+    cartItems = [], 
+    updateQuantity = () => {}, 
+    removeFromCart = () => {},
+    getCartTotal = () => 0,
+    getCartCount = () => 0 
+  } = useCart?.() || {};
+  
   const navigate = useNavigate();
 
   const handleQuantityChange = (productId, newQuantity) => {
@@ -82,7 +92,7 @@ const CartDrawer = ({ open, onClose }) => {
               <ListItem key={item.id} divider>
                 <Box sx={{ mr: 2 }}>
                   <img
-                    src={item.image}
+                    src={item.image || '/api/placeholder/60/60'}
                     alt={item.name}
                     style={{
                       width: 60,
@@ -102,14 +112,14 @@ const CartDrawer = ({ open, onClose }) => {
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <IconButton
                       size="small"
-                      onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                      onClick={() => handleQuantityChange(item.id, (item.quantity || 1) - 1)}
                     >
                       <RemoveIcon />
                     </IconButton>
                     
                     <TextField
                       size="small"
-                      value={item.quantity}
+                      value={item.quantity || 1}
                       inputProps={{
                         style: { textAlign: 'center', width: 40 }
                       }}
@@ -119,7 +129,7 @@ const CartDrawer = ({ open, onClose }) => {
                     
                     <IconButton
                       size="small"
-                      onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                      onClick={() => handleQuantityChange(item.id, (item.quantity || 1) + 1)}
                     >
                       <AddIcon />
                     </IconButton>
