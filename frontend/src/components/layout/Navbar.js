@@ -34,7 +34,7 @@ const Navbar = ({ onSearchOpen, onCartOpen, onWishlistOpen }) => {
   
   // Safe context usage with fallbacks
   const { isAuthenticated = false, user = null, logout = () => {} } = useAuth?.() || {};
-  const { cartItems = [] } = useCart?.() || {};
+  const { cart = [] } = useCart?.() || {};
   const { wishlistItems = [] } = useWishlist?.() || {};
 
   const navItems = [
@@ -67,7 +67,7 @@ const Navbar = ({ onSearchOpen, onCartOpen, onWishlistOpen }) => {
   };
 
   // Safe calculation with fallbacks
-  const cartItemsCount = cartItems.reduce?.((total, item) => total + (item.quantity || 0), 0) || 0;
+  const cartItemsCount = cart.reduce?.((total, item) => total + (item.quantity || 0), 0) || 0;
   const wishlistItemsCount = wishlistItems.length || 0;
 
   return (

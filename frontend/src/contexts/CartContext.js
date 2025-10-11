@@ -1,124 +1,155 @@
-import React, { createContext, useContext, useReducer, useCallback } from 'react';
-import { useSnackbar } from 'notistack';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
 
 const CartContext = createContext();
 
+// Cart reducer
 const cartReducer = (state, action) => {
+  console.log('Cart reducer action:', action.type, action.payload);
+  
   switch (action.type) {
-    case 'SET_CART':
-      return { ...state, items: action.payload, loading: false };
-    
-    case 'ADD_ITEM':
-      const existingItem = state.items.find(item => item._id === action.payload._id);
-      if (existingItem) {
-        return {
-          ...state,
-          items: state.items.map(item =>
-            item._id === action.payload._id
-              ? { ...item, quantity: item.quantity + 1 }
-              : item
-          )
-        };
+    case 'ADD_TO_CART':
+      const { product, quantity = 1 } = action.payload;
+      
+      if (!product || !product._id) {
+        console.error('Invalid product in ADD_TO_CART');
+        return state;
       }
-      return {
-        ...state,
-        items: [...state.items, { ...action.payload, quantity: 1 }]
-      };
-    
-    case 'REMOVE_ITEM':
-      return {
-        ...state,
-        items: state.items.filter(item => item._id !== action.payload)
-      };
-    
-    case 'UPDATE_QUANTITY':
-      return {
-        ...state,
-        items: state.items.map(item =>
-          item._id === action.payload.id
-            ? { ...item, quantity: Math.max(0, action.payload.quantity) }
+
+      const existingItemIndex = state.findIndex(item => item._id === product._id);
+      
+      if (existingItemIndex >= 0) {
+        // Item exists, update quantity
+        const newState = state.map((item, index) => 
+          index === existingItemIndex 
+            ? { ...item, quantity: item.quantity + quantity }
             : item
-        ).filter(item => item.quantity > 0)
-      };
-    
+        );
+        console.log('Updated existing item, new state:', newState);
+        return newState;
+      } else {
+        // Add new item
+        const newState = [...state, { ...product, quantity }];
+        console.log('Added new item, new state:', newState);
+        return newState;
+      }
+
+    case 'REMOVE_FROM_CART':
+      const newState = state.filter(item => item._id !== action.payload);
+      console.log('Removed item, new state:', newState);
+      return newState;
+
+    case 'UPDATE_QUANTITY':
+      return state.map(item =>
+        item._id === action.payload.id
+          ? { ...item, quantity: Math.max(0, action.payload.quantity) }
+          : item
+      ).filter(item => item.quantity > 0);
+
     case 'CLEAR_CART':
-      return { ...state, items: [] };
-    
-    case 'SET_LOADING':
-      return { ...state, loading: action.payload };
-    
+      console.log('Clearing cart');
+      return [];
+
+    case 'LOAD_CART':
+      console.log('Loading cart from storage:', action.payload);
+      return action.payload;
+
     default:
       return state;
   }
 };
 
-const initialState = {
-  items: [],
-  loading: false
+// Get initial cart from localStorage
+const getInitialCart = () => {
+  if (typeof window === 'undefined') return [];
+  
+  try {
+    const cart = localStorage.getItem('vinoir_cart');
+    if (cart) {
+      const parsed = JSON.parse(cart);
+      console.log('Loaded cart from localStorage:', parsed);
+      return Array.isArray(parsed) ? parsed : [];
+    }
+  } catch (error) {
+    console.error('Error loading cart from localStorage:', error);
+  }
+  
+  return [];
 };
 
 export const CartProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, initialState);
-  const { enqueueSnackbar } = useSnackbar();
+  const [cart, dispatch] = useReducer(cartReducer, []);
 
   // Load cart from localStorage on mount
-  React.useEffect(() => {
-    const savedCart = localStorage.getItem('vinoir_cart');
-    if (savedCart) {
-      try {
-        const cartData = JSON.parse(savedCart);
-        dispatch({ type: 'SET_CART', payload: cartData });
-      } catch (error) {
-        console.error('Error loading cart from localStorage:', error);
-      }
+  useEffect(() => {
+    const savedCart = getInitialCart();
+    if (savedCart.length > 0) {
+      dispatch({ type: 'LOAD_CART', payload: savedCart });
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
-  React.useEffect(() => {
-    localStorage.setItem('vinoir_cart', JSON.stringify(state.items));
-  }, [state.items]);
+  // Save cart to localStorage whenever cart changes
+  useEffect(() => {
+    console.log('Cart changed, saving to localStorage:', cart);
+    try {
+      localStorage.setItem('vinoir_cart', JSON.stringify(cart));
+    } catch (error) {
+      console.error('Error saving cart to localStorage:', error);
+    }
+  }, [cart]);
 
-  const addToCart = useCallback((product) => {
-    dispatch({ type: 'ADD_ITEM', payload: product });
-    enqueueSnackbar(`${product.name} added to cart`, { 
-      variant: 'success',
-      autoHideDuration: 3000 
+  // Cart actions
+  const addToCart = (product, quantity = 1) => {
+    console.log('addToCart called with:', product, quantity);
+    
+    if (!product || !product._id) {
+      console.error('Invalid product in addToCart:', product);
+      return;
+    }
+
+    dispatch({ 
+      type: 'ADD_TO_CART', 
+      payload: { product, quantity } 
     });
-  }, [enqueueSnackbar]);
+  };
 
-  const removeFromCart = useCallback((productId) => {
-    dispatch({ type: 'REMOVE_ITEM', payload: productId });
-    enqueueSnackbar('Item removed from cart', { 
-      variant: 'info',
-      autoHideDuration: 3000 
-    });
-  }, [enqueueSnackbar]);
+  const removeFromCart = (productId) => {
+    dispatch({ type: 'REMOVE_FROM_CART', payload: productId });
+  };
 
-  const updateQuantity = useCallback((productId, quantity) => {
+  const updateQuantity = (productId, quantity) => {
     dispatch({ type: 'UPDATE_QUANTITY', payload: { id: productId, quantity } });
-  }, []);
+  };
 
-  const clearCart = useCallback(() => {
+  const clearCart = () => {
     dispatch({ type: 'CLEAR_CART' });
-    enqueueSnackbar('Cart cleared', { 
-      variant: 'info',
-      autoHideDuration: 3000 
-    });
-  }, [enqueueSnackbar]);
+  };
 
-  const cartCount = state.items.reduce((total, item) => total + item.quantity, 0);
-  const cartTotal = state.items.reduce((total, item) => total + (item.price * item.quantity), 0);
+  // Calculate cart totals
+  const getCartTotal = () => {
+    return cart.reduce((total, item) => {
+      const price = Number(item.price) || 0;
+      const quantity = Number(item.quantity) || 0;
+      return total + (price * quantity);
+    }, 0);
+  };
+
+  const getCartItemsCount = () => {
+    return cart.reduce((total, item) => total + (Number(item.quantity) || 0), 0);
+  };
+
+  const isInCart = (productId) => {
+    return cart.some(item => item._id === productId);
+  };
 
   const value = {
-    items: state.items,
-    loading: state.loading,
-    cartCount,
-    cartTotal,
+    cart,
     addToCart,
     removeFromCart,
     updateQuantity,
-    clearCart
+    clearCart,
+    getCartTotal,
+    getCartItemsCount,
+    isInCart,
   };
 
   return (
