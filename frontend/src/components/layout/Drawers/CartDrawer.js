@@ -122,7 +122,9 @@ const CartDrawer = ({ open, onClose }) => {
                   }}
                 >
                   <img
-                    src={item.image || "/api/placeholder/60/60"}
+                    src={
+                      item.images?.[0]?.url || "/images/placeholder-product.jpg"
+                    }
                     alt={item.name}
                     style={{
                       width: "100%",
